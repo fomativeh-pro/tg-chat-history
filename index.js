@@ -78,14 +78,14 @@ app.post("/api/send-code", async (req, res) => {
   try {
     await client.connect();
 
-    //Check if user's session exists, and fetch chats instead, to prevent redundant login
-    const userData = await User.findOne({ phone_number });
-    if (userData && userData.session) {
-      const userSessionIsValid = isSessionValid(userData);
-      if (userSessionIsValid) {
-        return await fetchChatList(client, userData, res);
-      }
-    }
+    // //Check if user's session exists, and fetch chats instead, to prevent redundant login
+    // const userData = await User.findOne({ phone_number });
+    // if (userData && userData.session) {
+    //   const userSessionIsValid = isSessionValid(userData);
+    //   if (userSessionIsValid) {
+    //     return await fetchChatList(client, userData, res);
+    //   }
+    // }
 
     const { phoneCodeHash } = await client.invoke(
       new Api.auth.SendCode({
