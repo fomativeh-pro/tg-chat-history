@@ -81,9 +81,9 @@ app.post("/api/send-code", async (req, res) => {
     //Check if user's session exists, and fetch chats instead, to prevent redundant login
     const userData = await User.findOne({ phone_number });
     if (userData && userData.session) {
-      const userSessionIsValid = isSessionValid(userData)
+      const userSessionIsValid = isSessionValid(userData);
       if (userSessionIsValid) {
-        return await fetchChatList(client, userData, res)
+        return await fetchChatList(client, userData, res);
       }
     }
 
@@ -111,6 +111,10 @@ app.post("/api/send-code", async (req, res) => {
     console.error("Error sending code:", error);
     res.status(500).json({ error: error.message });
   }
+});
+
+app.get("/", async (req, res) => {
+  res.send("Hello");
 });
 
 // Sign-in and save session
@@ -177,7 +181,7 @@ app.get("/api/chats/:phone_number", async (req, res) => {
     const user = await User.findOne({ phone_number });
     if (!user) return res.status(404).json({ error: "User not found" });
 
-    await fetchChatList(client, user, res)
+    await fetchChatList(client, user, res);
   } catch (error) {
     console.error("Error retrieving chats:", error);
     res.status(500).json({ error: error.message });
